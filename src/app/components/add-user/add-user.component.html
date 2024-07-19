@@ -1,0 +1,78 @@
+<div class="flex items-center justify-center h-full">
+  <button mat-flat-button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded shadow" (click)="openDialog()">Add Workout</button>
+</div>
+
+<ng-template #dialogTemplate>
+  <form
+    class="min-w-[150px] max-w-[500px] w-full border-2 p-8 rounded bg-black shadow-lg space-y-6"
+    #form="ngForm"
+    (ngSubmit)="onSubmit(form)">
+    <h6 style="color:rgb(239, 236, 235);" mat-dialog-title class="text-lg font-semibold mb-4 text-gray-800">Add Workout Details</h6>
+
+
+    <mat-form-field class="w-full">
+      <mat-label>User Name</mat-label>
+      <input matInput [(ngModel)]="name" name="name" required class="border-b-2 focus:border-blue-500" />
+      <mat-icon matSuffix>person</mat-icon>
+      <div
+        *ngIf="form.submitted && form.controls['name']?.invalid"
+        class="text-xs text-red-600 mt-1">
+        User Name is required
+      </div>
+    </mat-form-field>
+
+    <mat-form-field class="w-full">
+      <mat-label>Workout Type</mat-label>
+      <mat-select [(ngModel)]="workoutType" name="workoutType" required class="border-b-2 focus:border-blue-500">
+        <mat-option
+          *ngFor="let option of workoutOptions"
+          [value]="option.value">
+          {{ option.viewValue }}
+        </mat-option>
+      </mat-select>
+      <mat-icon matSuffix>fitness_center</mat-icon>
+      <div
+        *ngIf="form.submitted && form.controls['workoutType']?.invalid"
+        class="text-xs text-red-600 mt-1">
+        Workout Type is required
+      </div>
+    </mat-form-field>
+
+    <mat-form-field class="w-full">
+      <mat-label>Workout Minutes</mat-label>
+      <input
+        matInput
+        [(ngModel)]="workoutMinutes"
+        name="workoutMinutes"
+        required
+        type="number"
+        min="1"
+        class="border-b-2 focus:border-blue-500" />
+      <mat-icon matSuffix>timer</mat-icon>
+      <div
+        *ngIf="form.submitted && form.controls['workoutMinutes']?.invalid"
+        class="text-xs text-red-600 mt-1">
+        Workout Minutes are required
+      </div>
+    </mat-form-field>
+
+    
+    <div class="flex justify-end mt-4 gap-4">
+      <button
+        mat-raised-button
+        type="button"
+        class="bg-gray-300 hover:bg-grey-400 text-gray-800 font-semibold py-2 px-4 rounded"
+        (click)="onCancel()">
+        Cancel
+      </button>
+      <button
+        mat-flat-button
+        matTooltip="Add Workout in the List"
+        type="submit"
+        class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded shadow">
+        
+        Add Workout
+      </button>
+    </div>
+  </form>
+</ng-template>
