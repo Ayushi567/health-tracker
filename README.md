@@ -10,7 +10,7 @@ It is single-page application (SPA) that takes inputs
 
 ## Hosted URL
 
-The application is hosted at []
+The application is hosted at [https://splendid-truffle-28c0f2.netlify.app/]
 
 ## Website
 
