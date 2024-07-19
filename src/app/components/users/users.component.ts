@@ -1,13 +1,41 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule, MatSelectChange } from '@angular/material/select';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { CommonModule } from '@angular/common';
 
-import { User } from '@/app/components/users/users.model';
-import { workoutOptions } from '@/app/components/add-user/add-user.component';
+
+
+
+import {
+  AfterViewInit,
+  Component,
+  OnInit,
+  ViewChild
+} from '@angular/core';
+import {
+  MatPaginator,
+  MatPaginatorModule
+} from '@angular/material/paginator';
+import {
+  MatInputModule
+} from '@angular/material/input';
+import {
+  MatSelectModule,
+  MatSelectChange
+} from '@angular/material/select';
+import {
+  MatFormFieldModule
+} from '@angular/material/form-field';
+import {
+  MatTableDataSource,
+  MatTableModule
+} from '@angular/material/table';
+import {
+  CommonModule
+} from '@angular/common';
+
+import {
+  User
+} from '@/app/components/users/users.model';
+import {
+  workoutOptions
+} from '@/app/components/add-user/add-user.component';
 
 @Component({
   selector: 'app-users',
@@ -33,8 +61,11 @@ export class UsersComponent implements OnInit, AfterViewInit {
     'totalWorkouts',
     'totalMinutes',
   ];
-  dataSource: MatTableDataSource<User> = new MatTableDataSource<User>();
-  workoutOptions = [{ value: 'all', viewValue: 'All' }, ...workoutOptions];
+  dataSource: MatTableDataSource < User > = new MatTableDataSource < User > ();
+  workoutOptions = [{
+    value: 'all',
+    viewValue: 'All'
+  }, ...workoutOptions];
   selectedWorkoutType: string = 'all';
   searchTerm: string = '';
 
@@ -88,6 +119,25 @@ export class UsersComponent implements OnInit, AfterViewInit {
       return matchesSearchTerm && matchesWorkoutType;
     };
   }
+
+  removeWorkout(userName: string, workoutIndex: number) {
+    const data = this.dataSource.data;
+    const user = data.find((item: User) => item.name === userName);
+
+    if (user) {
+      user.workouts.splice(workoutIndex, 1);
+
+      // Update totalWorkouts and totalMinutes
+      user.totalWorkouts = user.workouts.length;
+      user.totalMinutes = user.workouts.reduce((sum: number, workout: any) => sum + workout.minutes, 0);
+
+      // Update localStorage and dataSource
+      localStorage.setItem('workoutData', JSON.stringify(data));
+      this.dataSource.data = [...data];
+    }
+  }
 }
 
-export { User };
+export {
+  User
+};
